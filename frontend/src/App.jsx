@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
-import Home from './pages/Home';
+import Home from './pages/Home.jsx';
 import EditNote from './pages/EditNote';
 import Logout from './components/Logout';
 import { Navigate } from 'react-router-dom';
