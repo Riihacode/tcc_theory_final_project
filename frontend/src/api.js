@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5000';
+const API_URL = 'https://be-notes-136536138076.us-central1.run.app';
+//const API_URL = 'http://localhost:5000';
 //const API_URL = 'https://backend-notes-hafizh-136536138076.us-central1.run.app';
 
 //mengambil token dari local storage
