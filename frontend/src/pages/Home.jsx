@@ -14,17 +14,57 @@ const Home = () => {
   };
 
   return (
-    <div>
-      <h1 className="text-center mt-4 mb-4">📝 Aplikasi Catatan</h1>
-      <NoteForm onNoteAdded={() => setRefresh(!refresh)} />
-      <NoteList key={refresh} />
-       {/* Tombol Logout */}
-      <button onClick={handleLogout} style={{ marginTop: 20 }}
-      className="btn btn-danger btn-sm"
-      >
-        Logout
-      </button>
-      
+    <div style={{
+      minHeight: "100vh",
+      minWidth: "100vw",
+      background: "linear-gradient(to right, #f5f7fa, #c3cfe2)",
+      fontFamily: "Arial, sans-serif",
+      padding: "40px 20px"
+    }}>
+      <div style={{
+        maxWidth: 700,
+        margin: "0 auto",
+        background: "#fff",
+        padding: "30px",
+        borderRadius: 16,
+        boxShadow: "0 4px 20px rgba(0,0,0,0.1)"
+      }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <h1 style={{
+            marginBottom: 20,
+            color: "#333",
+            fontWeight: "bold"
+          }}>
+            📝 Aplikasi Catatan
+          </h1>
+
+          <button
+            onClick={handleLogout}
+            style={{
+              padding: "8px 16px",
+              background: "#e74c3c",
+              border: "none",
+              borderRadius: 8,
+              color: "#fff",
+              fontWeight: "bold",
+              cursor: "pointer",
+              transition: "background 0.3s"
+            }}
+            onMouseOver={(e) => e.target.style.background = "#c0392b"}
+            onMouseOut={(e) => e.target.style.background = "#e74c3c"}
+          >
+            Logout
+          </button>
+        </div>
+
+        <div style={{ marginTop: 20 }}>
+          <NoteForm onNoteAdded={() => setRefresh(!refresh)} />
+        </div>
+
+        <div style={{ marginTop: 30 }}>
+          <NoteList key={refresh} />
+        </div>
+      </div>
     </div>
   );
 };

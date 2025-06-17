@@ -6,13 +6,34 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: your_root_password
       MYSQL_DATABASE: note
-      MYSQL_USER: root
-      MYSQL_PASSWORD: your_root_password
+      #MYSQL_USER: root
+      #MYSQL_PASSWORD: your_root_password
     volumes:
       - mysql-data:/var/lib/mysql
-      - ./data.sql:/docker-entrypoint-initdb.d/data.sql
+      - ./note.sql:/docker-entrypoint-initdb.d/note.sql
     ports:
       - "3306:3306"
+    restart: always
+    healthcheck: # <-- TAMBAHKAN INI UNTUK MENJAMIN KESELAMATAN KONEKSI BACKEND
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${MYSQL_ROOT_PASSWORD}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s # Beri waktu database untuk inisialisasi awal
+  
+  # --- phpMyAdmin Service ---
+  phpmyadmin: # <-- TAMBAHKAN SERVICE INI
+    image: phpmyadmin/phpmyadmin
+    #container_name: your_app_phpmyadmin
+    environment:
+      PMA_HOST: db # Nama service database di docker-compose Anda
+      MYSQL_ROOT_PASSWORD: your_root_password # Harus sama dengan root password DB Anda
+      PMA_PORT: 3306 # Port database di dalam container database
+    ports:
+      - "8080:80" # Akses PHPMyAdmin dari browser di http://localhost:8080
+    depends_on:
+      - db # Pastikan database hidup sebelum phpmyadmin
+    restart: always
 
   backend:
     build: ./backend
@@ -23,15 +44,20 @@ services:
       DB_USER: root
       DB_PASSWORD: your_root_password
       DB_NAME: note
+      ACCESS_TOKEN_SECRET: ilovetcc
+      REFRESH_TOKEN_SECRET: tccmenyenangkan
     ports:
       - "5000:5000"
+    restart: always
 
   frontend:
     build: ./frontend
     depends_on:
       - backend
     ports:
-      - "3000:80"
+     # - "3000:80"
+      - "5173:5173"
+    restart: always
 
 volumes:
   mysql-data:

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { getNotes, deleteNote } from '../api';
 import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
+import dayjs from "dayjs";
 
 const NoteList = () => {
   const [notes, setNotes] = useState([]);
@@ -50,7 +51,13 @@ const NoteList = () => {
     }
   };
 
-  return (
+  const truncateText = (text, maxLength = 100) => {
+  if (!text) return '';
+  return text.length > maxLength ? text.slice(0, maxLength) + '...' : text;
+};
+
+
+   return (
     <div className="container mt-4">
       <h2 className="text-center mb-4">📌 Daftar Catatan</h2>
 
@@ -63,7 +70,19 @@ const NoteList = () => {
               <div className="card shadow-sm h-100">
                 <div className="card-body">
                   <h5 className="card-title">{note.title}</h5>
-                  <p className="card-text">{note.content}</p>
+                  <p className="card-text text-muted" style={{ whiteSpace: "pre-line" }}>
+                    {truncateText(note.content, 100)}
+                  </p>
+
+
+                  {/* createdAt & updatedAt */}
+                  <p className="text-muted mb-2" style={{ fontSize: "0.8rem" }}>
+                    Dibuat:{" "}
+                    {dayjs(note.createdAt).format("DD MMM YYYY, HH:mm")} <br />
+                    Diperbarui:{" "}
+                    {dayjs(note.updatedAt).format("DD MMM YYYY, HH:mm")}
+                  </p>
+
                   <div className="d-flex justify-content-between">
                     <button
                       onClick={() => navigate(`/edit/${note.id}`)}

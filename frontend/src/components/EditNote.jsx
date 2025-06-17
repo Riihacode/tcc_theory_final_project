@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, navigate } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { BASE_URL } from "../utils";
@@ -52,35 +52,58 @@ const EditNote = () => {
   };
 
   return (
-    <div>
-      <h1>Edit Note</h1>
+  <div className="container d-flex justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
+    <div className="card shadow p-4" style={{ width: '100vw'}}>
+      <h2 className="text-center mb-4">✏️ Edit Catatan</h2>
 
-      {error && <div style={{ color: "red" }}>{error}</div>}
+      {error && (
+        <div className="alert alert-danger" role="alert">
+          {error}
+        </div>
+      )}
 
       <form onSubmit={handleSubmit}>
-        <div>
-          <label>Title</label>
+        <div className="mb-3">
+          <label className="form-label">Judul</label>
           <input
             type="text"
             name="title"
             value={note.title}
             onChange={handleChange}
+            className="form-control"
+            placeholder="Masukkan judul catatan"
+            required
           />
         </div>
 
-        <div>
-          <label>Content</label>
+        <div className="mb-3">
+          <label className="form-label">Isi</label>
           <textarea
             name="content"
             value={note.content}
             onChange={handleChange}
+            className="form-control"
+            rows="5"
+            placeholder="Tulis isi catatanmu di sini..."
+            required
           />
         </div>
 
-        <button type="submit">Update Note</button>
+        <button type="submit" className="btn btn-primary w-100">
+          Simpan Perubahan
+        </button>
+        <button
+          type="button"
+          onClick={() => navigate('/')}
+          className="btn btn-secondary w-100 mt-3"
+        >
+          ← Kembali ke Daftar Catatan
+        </button>
       </form>
     </div>
-  );
+  </div>
+);
+
 };
 
 export default EditNote;
